@@ -273,12 +273,18 @@ canvas {
   grid-template-columns: 320px minmax(0, 1fr);
   gap: 18px;
   align-items: start;
+  min-width: 0;
 }
 
 .controls,
 .simulation {
   padding: 18px;
   box-shadow: 0 10px 30px rgba(24, 43, 78, 0.07);
+  min-width: 0;
+}
+
+.simulation {
+  overflow: hidden;
 }
 
 .controls {
@@ -359,6 +365,12 @@ output {
 #neuronCanvas {
   border-radius: 8px;
   background: #081527;
+}
+
+#waveSvg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .wave-panel {
@@ -509,11 +521,12 @@ output {
   margin: 0;
 }
 
-@media (max-width: 920px) {
+@media (max-width: 1100px) {
   .topbar,
   .footer {
     align-items: flex-start;
     flex-direction: column;
+    gap: 12px;
   }
 
   .hero,
@@ -524,6 +537,8 @@ output {
 
   .hero {
     min-height: 0;
+    padding-top: 28px;
+    padding-bottom: 34px;
   }
 
   .controls {
@@ -537,18 +552,115 @@ output {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 720px) {
+  .topbar {
+    padding: 12px 14px;
+  }
+
+  .brand {
+    gap: 10px;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .brand h1 {
+    font-size: 21px;
+    line-height: 1.15;
+  }
+
+  .brand .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+    gap: 6px;
+  }
+
   .nav a {
-    padding: 7px 9px;
-    font-size: 13px;
+    padding: 8px 4px;
+    font-size: 14px;
+    text-align: center;
+    background: #f4f7fb;
+  }
+
+  .hero {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .hero h2 {
+    font-size: 34px;
+    line-height: 1.16;
+    margin-bottom: 12px;
   }
 
   .hero-copy p {
     font-size: 16px;
   }
 
+  .hero-actions {
+    margin-top: 18px;
+  }
+
+  .hero-visual {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .hero-visual canvas {
+    height: 100%;
+  }
+
+  .section {
+    padding: 34px 14px;
+  }
+
+  .compact {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .section-heading {
+    margin-bottom: 16px;
+  }
+
+  .section-heading h2 {
+    font-size: 28px;
+  }
+
+  .step,
+  .protein-card,
+  .case-item,
+  .limit-grid > div,
+  .controls,
+  .simulation,
+  .quiz-form fieldset {
+    padding: 16px;
+  }
+
+  .step-grid,
+  .protein-grid,
+  .limit-grid,
+  .case-list,
+  .quiz-form {
+    gap: 10px;
+  }
+
+  .step span {
+    margin-bottom: 8px;
+  }
+
   .sim-header {
     flex-direction: column;
+    gap: 10px;
   }
 
   .readout {
@@ -558,5 +670,32 @@ output {
 
   .button {
     width: 100%;
+  }
+
+  #neuronCanvas {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+
+  .wave-panel {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand h1 {
+    font-size: 19px;
+  }
+
+  .brand .eyebrow {
+    font-size: 10px;
+  }
+
+  .nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero h2 {
+    font-size: 30px;
   }
 }
