@@ -450,6 +450,47 @@ output {
   align-items: start;
 }
 
+.case-body p {
+  margin-top: 0;
+}
+
+.case-body details {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.case-body summary {
+  color: var(--blue);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.case-detail {
+  margin-top: 12px;
+}
+
+.case-detail h4 {
+  margin: 14px 0 6px;
+  font-size: 16px;
+}
+
+.case-detail p {
+  margin: 0 0 10px;
+}
+
+.source-links {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--surface-soft);
+  font-size: 14px;
+}
+
+.source-links a {
+  color: var(--blue);
+  font-weight: 750;
+}
+
 .quiz-section {
   background: #fff;
 }
@@ -815,6 +856,15 @@ output {
     margin-bottom: 0;
     font-size: 12px;
     line-height: 1.45;
+  }
+
+  .case-detail h4 {
+    font-size: 15px;
+  }
+
+  .source-links {
+    font-size: 13px;
+    line-height: 1.55;
   }
 }
 
