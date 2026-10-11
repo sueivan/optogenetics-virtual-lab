@@ -1,0 +1,11 @@
+{
+  "name": "光遗传学虚拟实验教学平台",
+  "short_name": "OptoLab",
+  "description": "以交互式神经元为核心的光遗传学教学网站。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#2478ff",
+  "lang": "zh-CN",
+  "icons": []
+}

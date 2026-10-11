@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="光遗传学虚拟实验教学平台 V0.1：以交互式神经元为核心的医学教学网站。">
+  <title>光遗传学虚拟实验教学平台 V0.1</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">Opto</span>
+      <div>
+        <p class="eyebrow">Optogenetics Virtual Lab</p>
+        <h1>光遗传学虚拟实验教学平台</h1>
+      </div>
+    </div>
+    <nav class="nav" aria-label="主导航">
+      <a href="#lab">虚拟实验</a>
+      <a href="#proteins">光敏蛋白</a>
+      <a href="#cases">医学应用</a>
+      <a href="#quiz">课堂测验</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="tag">V0.1 教学版 · 电脑与手机可用</p>
+        <h2>先让学生看见“光如何改变神经元”，再谈机制与应用。</h2>
+        <p>
+          本平台用一个简化神经元模型演示光敏蛋白、光刺激参数与膜电位变化之间的关系。
+          它适合课堂导入、实验课预习和医学本科生神经科学教学，不替代真实电生理实验。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#lab">开始虚拟实验</a>
+          <a class="button secondary" href="#limits">查看科学边界</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="神经元光刺激示意图">
+        <canvas id="heroCanvas" width="720" height="460"></canvas>
+      </div>
+    </section>
+
+    <section class="section compact" aria-labelledby="principle-title">
+      <div class="section-heading">
+        <p class="eyebrow">Core Principle</p>
+        <h2 id="principle-title">三步理解光遗传学</h2>
+      </div>
+      <div class="step-grid">
+        <article class="step">
+          <span>01</span>
+          <h3>导入光敏蛋白基因</h3>
+          <p>让目标细胞表达 ChR2、NpHR、ArchT 等光敏蛋白。没有表达，单纯照光通常不能产生特异性控制。</p>
+        </article>
+        <article class="step">
+          <span>02</span>
+          <h3>给予特定光刺激</h3>
+          <p>不同蛋白对应不同波长、光强和脉冲方案。教学演示中用百分比表示强度，不等同实验照度单位。</p>
+        </article>
+        <article class="step">
+          <span>03</span>
+          <h3>观察细胞反应</h3>
+          <p>兴奋型蛋白可使膜电位去极化，抑制型蛋白可使膜电位超极化；真实反应还取决于细胞类型和表达量。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="lab" class="section lab-section" aria-labelledby="lab-title">
+      <div class="section-heading">
+        <p class="eyebrow">Interactive Lab</p>
+        <h2 id="lab-title">交互式神经元光刺激实验</h2>
+        <p>选择光敏蛋白，调整波长、光强、脉冲频率和刺激时长，观察预测的膜电位变化。</p>
+      </div>
+
+      <div class="lab-layout">
+        <aside class="controls" aria-label="实验参数控制">
+          <label for="opsinSelect">光敏蛋白</label>
+          <select id="opsinSelect">
+            <option value="chr2">ChR2：蓝光激活，兴奋</option>
+            <option value="nphr">NpHR：黄光激活，抑制</option>
+            <option value="archt">ArchT：绿光激活，抑制</option>
+          </select>
+
+          <div class="protein-note" id="proteinNote"></div>
+
+          <label for="wavelength">波长 <output id="wavelengthValue">470 nm</output></label>
+          <input id="wavelength" type="range" min="430" max="610" value="470" step="5">
+
+          <label for="intensity">光强 <output id="intensityValue">60%</output></label>
+          <input id="intensity" type="range" min="0" max="100" value="60" step="5">
+
+          <label for="frequency">脉冲频率 <output id="frequencyValue">20 Hz</output></label>
+          <input id="frequency" type="range" min="1" max="60" value="20" step="1">
+
+          <label for="duration">刺激时长 <output id="durationValue">2.0 s</output></label>
+          <input id="duration" type="range" min="0.5" max="5" value="2" step="0.5">
+
+          <div class="control-row">
+            <button id="stimulateBtn" class="button primary" type="button">开启光刺激</button>
+            <button id="resetBtn" class="button secondary" type="button">重置</button>
+          </div>
+        </aside>
+
+        <div class="simulation">
+          <div class="sim-header">
+            <div>
+              <p class="eyebrow">Membrane Potential</p>
+              <h3 id="responseTitle">预测反应：兴奋增强</h3>
+            </div>
+            <div class="readout" aria-live="polite">
+              <span id="potentialValue">-58 mV</span>
+              <small>峰值预测</small>
+            </div>
+          </div>
+          <canvas id="neuronCanvas" width="920" height="520" aria-label="神经元动画画布"></canvas>
+          <div class="wave-panel">
+            <svg id="waveSvg" viewBox="0 0 900 180" role="img" aria-label="膜电位曲线">
+              <line x1="40" y1="145" x2="870" y2="145" class="axis"></line>
+              <line x1="40" y1="20" x2="40" y2="145" class="axis"></line>
+              <text x="42" y="18" class="axis-label">mV</text>
+              <text x="835" y="166" class="axis-label">time</text>
+              <path id="wavePath" d="" class="wave"></path>
+              <path id="lightPath" d="" class="light-wave"></path>
+            </svg>
+          </div>
+          <p class="fineprint">
+            这是概念教学模型：真实膜电位需由电生理或钙成像等方法测量。本模型不输出实验结论。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="proteins" class="section" aria-labelledby="protein-title">
+      <div class="section-heading">
+        <p class="eyebrow">Opsin Toolbox</p>
+        <h2 id="protein-title">三类常见光敏蛋白比较</h2>
+      </div>
+      <div class="protein-grid">
+        <article class="protein-card blue">
+          <h3>ChR2</h3>
+          <p class="protein-type">蓝光激活 · 兴奋型</p>
+          <p>常用于让神经元去极化并更容易产生动作电位。教学上最适合展示“光打开离子通道”。</p>
+        </article>
+        <article class="protein-card amber">
+          <h3>NpHR</h3>
+          <p class="protein-type">黄光激活 · 抑制型</p>
+          <p>常用于使神经元超极化或降低放电概率。适合与 ChR2 对照，理解兴奋与抑制。</p>
+        </article>
+        <article class="protein-card green">
+          <h3>ArchT</h3>
+          <p class="protein-type">绿光激活 · 抑制型</p>
+          <p>可通过质子泵活动抑制神经元活动。适合讨论不同光谱、不同工具的实验选择。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="cases" class="section" aria-labelledby="case-title">
+      <div class="section-heading">
+        <p class="eyebrow">Medical Context</p>
+        <h2 id="case-title">医学应用：只讲清楚边界，不夸大转化</h2>
+      </div>
+      <div class="case-list">
+        <article class="case-item">
+          <h3>学习与记忆</h3>
+          <p>用于研究海马、皮层及相关环路如何参与记忆编码、提取和行为调控。可以连接阿尔茨海默病基础研究，但不能写成已经可治疗失智症。</p>
+        </article>
+        <article class="case-item">
+          <h3>帕金森病与运动控制</h3>
+          <p>用于验证基底节环路中不同细胞群与运动行为的因果关系。临床治疗仍以药物、DBS、康复等成熟手段为主。</p>
+        </article>
+        <article class="case-item">
+          <h3>视网膜疾病与视觉恢复</h3>
+          <p>已有早期人体研究探索光遗传治疗与辅助光刺激设备，但仍属于严格适应证、严格监管下的临床转化研究，不是常规治疗。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="quiz" class="section quiz-section" aria-labelledby="quiz-title">
+      <div class="section-heading">
+        <p class="eyebrow">Class Quiz</p>
+        <h2 id="quiz-title">课堂测验</h2>
+        <p>5 题小测，适合课前导入或课后即时反馈。</p>
+      </div>
+      <form id="quizForm" class="quiz-form">
+        <fieldset>
+          <legend>1. 光遗传学发挥特异性控制作用的核心前提是：</legend>
+          <label><input type="radio" name="q1" value="a"> 使用足够强的白光照射大脑</label>
+          <label><input type="radio" name="q1" value="b"> 目标细胞表达相应光敏蛋白</label>
+          <label><input type="radio" name="q1" value="c"> 只要有红光治疗仪即可</label>
+        </fieldset>
+        <fieldset>
+          <legend>2. ChR2 在教学模型中主要表示：</legend>
+          <label><input type="radio" name="q2" value="a"> 蓝光激活的兴奋型工具</label>
+          <label><input type="radio" name="q2" value="b"> 黄光激活的抑制型工具</label>
+          <label><input type="radio" name="q2" value="c"> 无需基因导入的普通光疗</label>
+        </fieldset>
+        <fieldset>
+          <legend>3. 对光遗传学临床转化的正确说法是：</legend>
+          <label><input type="radio" name="q3" value="a"> 已经成为失智症常规治疗</label>
+          <label><input type="radio" name="q3" value="b"> 动物研究与人体治疗之间仍有重要边界</label>
+          <label><input type="radio" name="q3" value="c"> 不需要伦理审查</label>
+        </fieldset>
+        <fieldset>
+          <legend>4. 调整脉冲频率主要是在改变：</legend>
+          <label><input type="radio" name="q4" value="a"> 单位时间内光刺激出现的次数</label>
+          <label><input type="radio" name="q4" value="b"> 学生考试成绩</label>
+          <label><input type="radio" name="q4" value="c"> 病人是否立即康复</label>
+        </fieldset>
+        <fieldset>
+          <legend>5. 本网页模型最适合用于：</legend>
+          <label><input type="radio" name="q5" value="a"> 发表真实实验数据</label>
+          <label><input type="radio" name="q5" value="b"> 替代动物实验</label>
+          <label><input type="radio" name="q5" value="c"> 帮助学生理解概念和参数关系</label>
+        </fieldset>
+        <button class="button primary" type="submit">提交测验</button>
+      </form>
+      <div id="quizResult" class="quiz-result" aria-live="polite"></div>
+    </section>
+
+    <section id="limits" class="section limits" aria-labelledby="limits-title">
+      <div class="section-heading">
+        <p class="eyebrow">Scientific Boundary</p>
+        <h2 id="limits-title">科学边界与使用声明</h2>
+      </div>
+      <div class="limit-grid">
+        <div>
+          <h3>本平台能做什么</h3>
+          <p>用于医学、护理、药学及生命科学课程的概念教学，帮助学生理解光敏蛋白、波长、强度、脉冲与神经活动之间的关系。</p>
+        </div>
+        <div>
+          <h3>本平台不能做什么</h3>
+          <p>不能诊断、治疗或预测个体疾病；不能替代动物实验、电生理记录、伦理审查和临床研究；不能作为医疗建议。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section references" aria-labelledby="refs-title">
+      <div class="section-heading">
+        <p class="eyebrow">Selected Sources</p>
+        <h2 id="refs-title">可核验参考来源</h2>
+      </div>
+      <ol>
+        <li>Boyden, E. S., Zhang, F., Bamberg, E., Nagel, G., & Deisseroth, K. (2005). Millisecond-timescale, genetically targeted optical control of neural activity. <em>Nature Neuroscience</em>. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/16251971/" target="_blank" rel="noreferrer">16251971</a>.</li>
+        <li>Emiliani, V., et al. (2022). Optogenetics for light control of biological systems. <em>Nature Reviews Methods Primers</em>. PMCID: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10627578/" target="_blank" rel="noreferrer">PMC10627578</a>.</li>
+        <li>Sahel, J. A., et al. (2021). Partial recovery of visual function in a blind patient after optogenetic therapy. <em>Nature Medicine</em>. DOI: <a href="https://doi.org/10.1038/s41591-021-01351-4" target="_blank" rel="noreferrer">10.1038/s41591-021-01351-4</a>.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>软件开发：苏裕盛 教授／医学博士</p>
+    <p>教学用途 · 非医疗器械 · 非临床决策工具</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
