@@ -302,6 +302,11 @@ canvas {
   font-weight: 750;
 }
 
+.range-grid {
+  display: grid;
+  gap: 0;
+}
+
 select,
 input[type="range"] {
   width: 100%;
@@ -554,6 +559,7 @@ output {
 
 @media (max-width: 720px) {
   .topbar {
+    position: static;
     padding: 12px 14px;
   }
 
@@ -623,6 +629,10 @@ output {
     padding: 34px 14px;
   }
 
+  .lab-section {
+    padding-top: 24px;
+  }
+
   .compact {
     padding-top: 30px;
     padding-bottom: 30px;
@@ -654,18 +664,109 @@ output {
     gap: 10px;
   }
 
+  .lab-layout {
+    gap: 10px;
+  }
+
+  .controls {
+    padding: 12px;
+  }
+
+  .controls > label {
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+
+  select {
+    min-height: 36px;
+    padding: 6px 9px;
+    font-size: 13px;
+  }
+
+  .protein-note {
+    margin-top: 8px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .range-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 10px;
+    margin-top: 10px;
+  }
+
+  .range-field {
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fbfdff;
+  }
+
+  .range-field label {
+    margin: 0 0 4px;
+    gap: 6px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .range-field output {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .range-field input[type="range"] {
+    display: block;
+    height: 22px;
+  }
+
+  .control-row {
+    display: grid;
+    grid-template-columns: 1fr 0.72fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .control-row .button {
+    min-height: 38px;
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
   .step span {
     margin-bottom: 8px;
   }
 
   .sim-header {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .sim-header h3 {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .sim-header .eyebrow {
+    font-size: 10px;
   }
 
   .readout {
-    width: 100%;
-    text-align: left;
+    min-width: 92px;
+    padding: 8px;
+    text-align: right;
+  }
+
+  .readout span {
+    font-size: 20px;
+  }
+
+  .readout small {
+    font-size: 11px;
   }
 
   .button {
@@ -678,7 +779,13 @@ output {
   }
 
   .wave-panel {
-    margin-top: 10px;
+    margin-top: 8px;
+  }
+
+  .fineprint {
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 1.45;
   }
 }
 
@@ -697,5 +804,14 @@ output {
 
   .hero h2 {
     font-size: 30px;
+  }
+
+  .range-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  .range-field {
+    padding: 7px;
   }
 }

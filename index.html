@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="光遗传学虚拟实验教学平台 V0.1.1：以交互式神经元为核心的医学教学网站。">
-  <title>光遗传学虚拟实验教学平台 V0.1.1</title>
+  <meta name="description" content="光遗传学虚拟实验教学平台 V0.1.2：以交互式神经元为核心的医学教学网站。">
+  <title>光遗传学虚拟实验教学平台 V0.1.2</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.webmanifest">
 </head>
@@ -28,7 +28,7 @@
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <p class="tag">V0.1.1 教学版 · 手机排版优化</p>
+        <p class="tag">V0.1.2 教学版 · 手机排版优化</p>
         <h2>先让学生看见“光如何改变神经元”，再谈机制与应用。</h2>
         <p>
           本平台用一个简化神经元模型演示光敏蛋白、光刺激参数与膜电位变化之间的关系。
@@ -86,17 +86,27 @@
 
           <div class="protein-note" id="proteinNote"></div>
 
-          <label for="wavelength">波长 <output id="wavelengthValue">470 nm</output></label>
-          <input id="wavelength" type="range" min="430" max="610" value="470" step="5">
+          <div class="range-grid">
+            <div class="range-field">
+              <label for="wavelength">波长 <output id="wavelengthValue">470 nm</output></label>
+              <input id="wavelength" type="range" min="430" max="610" value="470" step="5">
+            </div>
 
-          <label for="intensity">光强 <output id="intensityValue">60%</output></label>
-          <input id="intensity" type="range" min="0" max="100" value="60" step="5">
+            <div class="range-field">
+              <label for="intensity">光强 <output id="intensityValue">60%</output></label>
+              <input id="intensity" type="range" min="0" max="100" value="60" step="5">
+            </div>
 
-          <label for="frequency">脉冲频率 <output id="frequencyValue">20 Hz</output></label>
-          <input id="frequency" type="range" min="1" max="60" value="20" step="1">
+            <div class="range-field">
+              <label for="frequency">脉冲频率 <output id="frequencyValue">20 Hz</output></label>
+              <input id="frequency" type="range" min="1" max="60" value="20" step="1">
+            </div>
 
-          <label for="duration">刺激时长 <output id="durationValue">2.0 s</output></label>
-          <input id="duration" type="range" min="0.5" max="5" value="2" step="0.5">
+            <div class="range-field">
+              <label for="duration">刺激时长 <output id="durationValue">2.0 s</output></label>
+              <input id="duration" type="range" min="0.5" max="5" value="2" step="0.5">
+            </div>
+          </div>
 
           <div class="control-row">
             <button id="stimulateBtn" class="button primary" type="button">开启光刺激</button>
